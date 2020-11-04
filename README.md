@@ -1,1 +1,1 @@
-# Mail-Classification-using-KNN
+# Mail-Classification-using-SVM
