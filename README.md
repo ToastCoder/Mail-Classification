@@ -1,1 +1,1 @@
-# Mail-Classification-using-SVM
+# Mail-Classification
