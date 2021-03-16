@@ -30,15 +30,15 @@ y = dataset.iloc[:, 0].values
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.20, random_state = 0)
 
-# FITTING NAIVR BAYES
+# FITTING NAIVe BAYES
 from sklearn.naive_bayes import GaussianNB
 classifier = GaussianNB()
 classifier.fit(X_train, y_train)
 
-# Predicting the Test set results
+# PREDICTING TEST SET RESULTS
 y_pred = classifier.predict(X_test)
 
-# Making the Confusion Matrix
+# FORMING CONFUSION MATRIX
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred)
 
