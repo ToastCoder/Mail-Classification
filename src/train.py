@@ -32,6 +32,9 @@ x = token.texts_to_sequences(emails)
 x = np.array(x)
 x = tf.keras.preprocessing.sequence.pad_sequences(x)
 
+# SPLITTING DATA INTO TRAIN AND TEST SET
+x_train, x_test, y_train, y_test = train_test_split(x,y,test_size = 0.1)
+
 
 
 
