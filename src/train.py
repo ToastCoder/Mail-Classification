@@ -23,6 +23,7 @@ os.system('cd ..')
 print(f"TensorFlow version: {tf.__version__}")
 
 DATASET_PATH = "data/mailData.csv"
+MODEL_PATH = './model/spamModel'
 
 # IMPORTING THE DATASET
 data = pd.read_csv(DATASET_PATH)
@@ -109,5 +110,11 @@ plt.legend(['Train Accuracy', 'Validation Accuracy'], loc='upper left')
 plt.show()
 plt.savefig('graphs/acc_graph.png')
 
+# CALCULATING THE ACCURACY
+score = model.evaluate(x_val_padded, y_val)
+print(f"Model Accuracy: {round(score[1]*100,4)}")
 
+# SAVING THE MODEL
+tf.keras.models.save_model(model,MODEL_PATH)
+print(f"Model saved at {MODEL_PATH}")
 
