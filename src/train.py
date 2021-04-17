@@ -54,6 +54,8 @@ sequences = tokenizer.texts_to_sequences(x)
 # PADDING THE SEQUENCES
 x_padded = tf.keras.preprocessing.sequence.pad_sequences(sequences)
 
+# SPLITING THE DATASET TO TRAIN AND TEST SET
+x_train_padded, x_val_padded, y_train, y_val = train_test_split(x_padded, labels, test_size = 0.2, random_state = 0)
 
 
 
