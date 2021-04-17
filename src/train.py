@@ -41,7 +41,13 @@ for i in y:
     if i == 'spam':
         labels.append(1)
 
+# INITIALIZING TOKENIZER OBJECT AND FITTING TO DATA
+tokenizer = tf.keras.preprocessing.text.Tokenizer(num_words = 500000)
+tokenizer.fit_on_texts(x)
 
+# PRINTING WORD INDICES
+indices = tokenizer.word_index
+print(indices)
 
 
 
