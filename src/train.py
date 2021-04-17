@@ -19,3 +19,11 @@ import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
 os.system('cd ..')
+
+print(f"TensorFlow version: {tf.__version__}")
+
+DATASET_PATH = "data/mailData.csv"
+
+# IMPORTING THE DATASET
+data = pd.read_csv(DATASET_PATH)
+
