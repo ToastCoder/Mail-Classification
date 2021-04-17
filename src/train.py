@@ -27,7 +27,7 @@ DATASET_PATH = "data/mailData.csv"
 # IMPORTING THE DATASET
 data = pd.read_csv(DATASET_PATH)
 print("Dataset Description:\n",data.describe())
-print("Dataset Head\n",data.head())
+print("Dataset Head:\n",data.head())
 
 # SEGMENTING DATA
 x = data['EmailText'].values
@@ -45,9 +45,15 @@ for i in y:
 tokenizer = tf.keras.preprocessing.text.Tokenizer(num_words = 500000)
 tokenizer.fit_on_texts(x)
 
-# PRINTING WORD INDICES
+# OBTAINING WORD INDICES
 indices = tokenizer.word_index
-print(indices)
+
+# CONVERTING TO SEQUENCES
+sequences = tokenizer.texts_to_sequences(x)
+
+# PADDING THE SEQUENCES
+x_padded = tf.keras.preprocessing.sequence.pad_sequences(sequences)
+
 
 
 
