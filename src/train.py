@@ -87,4 +87,27 @@ model = spamModel()
 model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
 history = model.fit(x_train_padded, y_train, batch_size = 5, epochs = 10, validation_data = (x_val_padded,y_val))
 
+# PLOTTING THE GRAPH FOR TRAIN-LOSS AND VALIDATION-LOSS
+plt.figure(0)
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Loss Graph')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train Loss', 'Validation Loss'], loc='upper left')
+plt.show()
+plt.savefig('graphs/loss_graph.png')
+
+# PLOTTING THE GRAPH FOR TRAIN-ACCURACY AND VALIDATION-ACCURACY
+plt.figure(1)
+plt.plot(history.history['accuracy'])
+plt.plot(history.history['val_accuracy'])
+plt.title('Accuracy Graph')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train Accuracy', 'Validation Accuracy'], loc='upper left')
+plt.show()
+plt.savefig('graphs/acc_graph.png')
+
+
 
