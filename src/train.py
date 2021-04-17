@@ -57,14 +57,25 @@ x_padded = tf.keras.preprocessing.sequence.pad_sequences(sequences)
 # SPLITING THE DATASET TO TRAIN AND TEST SET
 x_train_padded, x_val_padded, y_train, y_val = train_test_split(x_padded, labels, test_size = 0.2, random_state = 0)
 
+# CONVERTING LISTS TO NUMPY ARRAYS
+x_train_padded = np.array(x_train_padded)
+x_val_padded = np.array(x_val_padded)
+y_train = np.array(y_train)
+y_val = np.array(y_val)
+
 # DEFINING THE NEURAL NETWORK
 def spamModel():
+
+    vocab_size = 10000
+    embedding_dim = 16
+    max_length = 189
+
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Embedding(vocab_size = 10000, embedding_dim = 16, input_length = 189))
+    model.add(tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length = max_length))
     model.add(tf.keras.layers.GlobalAveragePooling1D())
-    model.add(tf.keras.Dense(32, activation = 'relu'))
-    model.add(tf.keras.Dense(8, activation = 'relu'))
-    model.add(tf.keras.Dense(1, activation = 'sigmoid'))
+    model.add(tf.keras.layers.Dense(32, activation = 'relu'))
+    model.add(tf.keras.layers.Dense(8, activation = 'relu'))
+    model.add(tf.keras.layers.Dense(1, activation = 'sigmoid'))
     return model
 
 # INITITIALIZING THE CALLBACK
@@ -72,5 +83,8 @@ early_stopping = tf.keras.callbacks.EarlyStopping(monitor = 'accuracy', mode = '
 
 model = spamModel()
 
+# TRAINING THE MODEL
+model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
+history = model.fit(x_train_padded, y_train, batch_size = 5, epochs = 10, validation_data = (x_val_padded,y_val))
 
 
