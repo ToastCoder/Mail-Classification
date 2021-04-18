@@ -1,0 +1,11 @@
+# ////////////////////////////////////////////////////////////
+
+# MAIL CLASSIFICATION
+
+# FILE NAME: train.py
+
+# DEVELOPED BY: Vigneshwar Ravichandar
+
+# TOPICS: Natural Language Processing, TensorFlow , Recurrent Neural Network
+
+# ////////////////////////////////////////////////////////////
