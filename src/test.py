@@ -11,9 +11,12 @@
 # ////////////////////////////////////////////////////////////
 
 # IMPORTING REQUIRED MODULES
+import os
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+
+os.system('cd ..')
 
 print(f"TensorFlow version: {tf.__version__}")
 
@@ -43,4 +46,7 @@ email_sequence = tokenizer.texts_to_sequences(email)
 
 # PADDING THE SEQUENCES
 email_padded = tf.keras.preprocessing.sequence.pad_sequences(email_sequence)
+
+# GETTING THE TRAINED MODEL
+model = tf.keras.models.load_model('./model/spamModel')
 
