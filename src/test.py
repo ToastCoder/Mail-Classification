@@ -47,6 +47,13 @@ email_sequence = tokenizer.texts_to_sequences(email)
 # PADDING THE SEQUENCES
 email_padded = tf.keras.preprocessing.sequence.pad_sequences(email_sequence)
 
+# CONVERTING INTO A NUMPY ARRAY
+email_padded = np.array(email_padded)
+
 # GETTING THE TRAINED MODEL
 model = tf.keras.models.load_model('./model/spamModel')
 
+res = model.predict(email_padded)
+
+y_classes = res.argmax(axis=-1)
+print(y_classes)
