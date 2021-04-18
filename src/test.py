@@ -35,4 +35,12 @@ tokenizer.fit_on_texts(x)
 # OBTAINING WORD INDICES
 indices = tokenizer.word_index
 
+# GETTING A CUSTOM EMAIL FROM THE USER
 email = input("Enter the received mail: ")
+
+# CONVERTING TO SEQUENCES
+email_sequence = tokenizer.texts_to_sequences(email)
+
+# PADDING THE SEQUENCES
+email_padded = tf.keras.preprocessing.sequence.pad_sequences(email_sequence)
+
