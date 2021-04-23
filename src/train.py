@@ -46,7 +46,8 @@ tokenizer.fit_on_texts(x_train)
 
 # OBTAINING WORD INDICES
 indices = tokenizer.word_index
-print(f"Found {len(indices)} unique tokens")
+v = len(indices)
+print(f"Found {v} unique tokens")
 
 # CONVERTING TO SEQUENCES
 train_sequences = tokenizer.texts_to_sequences(x_train)
@@ -54,9 +55,12 @@ test_sequences = tokenizer.texts_to_sequences(x_val)
 
 # PADDING THE SEQUENCES
 x_train_padded = tf.keras.preprocessing.sequence.pad_sequences(train_sequences)
-print(f"Shape of the training data tensor: {x_train_padded}")
+print(f"Shape of the training data tensor: {x_train_padded.shape}")
 
 length = x_train_padded.shape[1]
+
+x_val_padded = tf.keras.preprocessing.sequence.pad_sequences(test_sequences, maxlen = length)
+print(f"Shape of the testing data tensor: {x_val_padded.shape}")
 
 # CONVERTING LISTS TO NUMPY ARRAYS
 x_train_padded = np.array(x_train_padded)
@@ -65,28 +69,29 @@ y_train = np.array(y_train)
 y_val = np.array(y_val)
 
 # DEFINING THE NEURAL NETWORK
-def spamModel():
+def spamModel(length,v):
 
-    vocab_size = 10000
-    embedding_dim = 16
-    max_length = 189
+    # USED PARAMETERS
+    embedding_dim = 20
+    hidden_state_dim = 15
 
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length = max_length))
+    model.add(tf.keras.layers.Input(length,))
+    model.add(tf.keras.layers.Embedding(v+1, embedding_dim))
+    model.add(tf.keras.layers.LSTM(hidden_state_dim, return_sequences = True))
     model.add(tf.keras.layers.GlobalAveragePooling1D())
-    model.add(tf.keras.layers.Dense(32, activation = 'relu'))
-    model.add(tf.keras.layers.Dense(8, activation = 'relu'))
+    model.add(tf.keras.layers.Dense(8,activation = 'relu'))
     model.add(tf.keras.layers.Dense(1, activation = 'sigmoid'))
     return model
 
 # INITITIALIZING THE CALLBACK
 early_stopping = tf.keras.callbacks.EarlyStopping(monitor = 'accuracy', mode = 'max')
 
-model = spamModel()
+model = spamModel(length,v)
 
 # TRAINING THE MODEL
 model.compile(loss = 'binary_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
-history = model.fit(x_train_padded, y_train, batch_size = 5, epochs = 10, validation_data = (x_val_padded,y_val))
+history = model.fit(x_train_padded, y_train, batch_size = 5, epochs = 10, validation_data = (x_val_padded,y_val),callbacks = early_stopping)
 
 # PLOTTING THE GRAPH FOR TRAIN-LOSS AND VALIDATION-LOSS
 plt.figure(0)
