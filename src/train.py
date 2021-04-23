@@ -30,33 +30,33 @@ data = pd.read_csv(DATASET_PATH)
 print("Dataset Description:\n",data.describe())
 print("Dataset Head:\n",data.head())
 
+# CONVERTING STRING LABELS INTO INTEGER LABELS
+data['binary_label'] = data['Label'].map({'ham':0, 'spam': 1})
+
 # SEGMENTING DATA
 x = data['EmailText'].values
-y = data['Label'].values
+y = data['binary_label'].values
 
-# CONVERTING STRING LABELS INTO INTEGER LABELS
-labels = []
-for i in y:
-    if i == 'ham':
-        labels.append(0)
-    if i == 'spam':
-        labels.append(1)
+# SPLITTING THE DATASET TO TRAIN AND TEST SET
+x_train, x_val, y_train, y_val = train_test_split(x,y,test_size = 0.33)
 
 # INITIALIZING TOKENIZER OBJECT AND FITTING TO DATA
-tokenizer = tf.keras.preprocessing.text.Tokenizer(num_words = 500000)
-tokenizer.fit_on_texts(x)
+tokenizer = tf.keras.preprocessing.text.Tokenizer(num_words = 20000)
+tokenizer.fit_on_texts(x_train)
 
 # OBTAINING WORD INDICES
 indices = tokenizer.word_index
+print(f"Found {len(indices)} unique tokens")
 
 # CONVERTING TO SEQUENCES
-sequences = tokenizer.texts_to_sequences(x)
+train_sequences = tokenizer.texts_to_sequences(x_train)
+test_sequences = tokenizer.texts_to_sequences(x_val)
 
 # PADDING THE SEQUENCES
-x_padded = tf.keras.preprocessing.sequence.pad_sequences(sequences)
+x_train_padded = tf.keras.preprocessing.sequence.pad_sequences(train_sequences)
+print(f"Shape of the training data tensor: {x_train_padded}")
 
-# SPLITING THE DATASET TO TRAIN AND TEST SET
-x_train_padded, x_val_padded, y_train, y_val = train_test_split(x_padded, labels, test_size = 0.2, random_state = 0)
+length = x_train_padded.shape[1]
 
 # CONVERTING LISTS TO NUMPY ARRAYS
 x_train_padded = np.array(x_train_padded)
