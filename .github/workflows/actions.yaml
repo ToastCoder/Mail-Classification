@@ -1,2 +1,9 @@
-- name: CML-Actions
-  uses: ToastCoder/cml-actions@0.1.1
+name: build
+on: [push]
+jobs:
+  run:
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: CML-Actions
+        uses: ToastCoder/cml-actions@0.1.1
+
